@@ -6,7 +6,6 @@ test: lint ## run the tests for travis CI
 
 lint: ## run linter
 	flake8 tornado_proxy_handlers 
-	yarn lint
 
 annotate: ## MyPy type annotation check
 	mypy -s tornado_proxy_handlers
@@ -20,10 +19,6 @@ clean: ## clean the repository
 	rm -rf .coverage cover htmlcov logs build dist *.egg-info
 	make -C ./docs clean
 	rm -rf ./docs/*.*.rst  # generated
-
-js:  ## build the js
-	yarn
-	yarn build
 
 docs:  ## make documentation
 	make -C ./docs html
