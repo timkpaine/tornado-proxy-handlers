@@ -102,3 +102,10 @@ venv.bak/
 
 # mypy
 .mypy_cache/
+
+.autoversion
+
+yarn.lock
+package-lock.json
+node_modules
+*.ipyhistory
