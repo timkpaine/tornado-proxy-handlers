@@ -1,22 +1,18 @@
-run:  ## run server
-	python3 -m dashboard.server
-
-
 tests: ## Clean and Make unit tests
-	python3 -m pytest -v tests --cov=dashboard
+	python3 -m pytest -v tests --cov=tornado_proxy_handlers
 
 test: lint ## run the tests for travis CI
-	@ python3 -m pytest -v tests --cov=dashboard
+	@ python3 -m pytest -v tests --cov=tornado_proxy_handlers
 
 lint: ## run linter
-	flake8 dashboard 
+	flake8 tornado_proxy_handlers 
 	yarn lint
 
 annotate: ## MyPy type annotation check
-	mypy -s dashboard
+	mypy -s tornado_proxy_handlers
 
 annotate_l: ## MyPy type annotation check - count only
-	mypy -s dashboard | wc -l 
+	mypy -s tornado_proxy_handlers | wc -l 
 
 clean: ## clean the repository
 	find . -name "__pycache__" | xargs  rm -rf 
