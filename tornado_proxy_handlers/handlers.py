@@ -11,25 +11,14 @@ join = os.path.join
 
 
 class ProxyHandler(tornado.web.RequestHandler):
-
-    def initialize(self, dashboard=None, proxy_path='', **kwargs):
-        self.dashboard = dashboard
-        self.proxy_path = proxy_path
+    def initialize(self, proxy_path='', **kwargs):
         super(ProxyHandler, self).initialize(**kwargs)
+        self.proxy_path = proxy_path
 
     @tornado.gen.coroutine
-    def get(self, *args):
+    def get(self, url=None):
         '''Get the login page'''
-        path = self.request.uri.replace(self.proxy_path, '', 1)
-        splits = path.split('/')
-        id = splits[0]
-
-        if id not in self.dashboard.subprocesses:
-            return
-
-        p, nbdir, nbpath, port = self.dashboard.subprocesses[id]
-
-        req = tornado.httpclient.HTTPRequest('http://localhost:{port}/{url}'.format(port=port, url='/'.join(splits[1:])))
+        req = tornado.httpclient.HTTPRequest(url)
         client = tornado.httpclient.AsyncHTTPClient()
         response = yield client.fetch(req, raise_error=False)
         self.set_status(response.code)
@@ -41,23 +30,14 @@ class ProxyHandler(tornado.web.RequestHandler):
 
 
 class ProxyWSHandler(tornado.websocket.WebSocketHandler):
-    def initialize(self, dashboard=None, proxy_path='', **kwargs):
+    def initialize(self, proxy_path='', **kwargs):
         super(ProxyWSHandler, self).initialize(**kwargs)
-        self.dashboard = dashboard
         self.proxy_path = proxy_path
         self.ws = None
         self.closed = True
 
     @tornado.gen.coroutine
-    def open(self, *args):
-        path = self.request.uri.replace(self.proxy_path, '', 1)
-        splits = path.split('/')
-        id = splits[0]
-        if id not in self.dashboard.subprocesses:
-            return
-
-        p, nbdir, nbpath, port = self.dashboard.subprocesses[id]
-        url = '/'.join(splits[1:])
+    def open(self, url=None):
         self.closed = False
 
         def write(msg):
@@ -68,7 +48,7 @@ class ProxyWSHandler(tornado.websocket.WebSocketHandler):
             else:
                 if self.ws:
                     self.write_message(msg, binary=isinstance(msg, bytes))
-        self.ws = yield tornado.websocket.websocket_connect('ws://localhost:{port}/{url}'.format(port=port, url=url),
+        self.ws = yield tornado.websocket.websocket_connect(url,
                                                             on_message_callback=write)
 
     def on_message(self, message):
