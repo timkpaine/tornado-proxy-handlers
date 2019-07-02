@@ -21,6 +21,12 @@ class ProxyHandler(tornado.web.RequestHandler):
         req = tornado.httpclient.HTTPRequest(url)
         client = tornado.httpclient.AsyncHTTPClient()
         response = yield client.fetch(req, raise_error=False)
+
+        # websocket upgrade
+        if response.code == 599:
+            self.set_status(200)  # switching protocols
+            return
+
         self.set_status(response.code)
         if response.body:
             for header in response.headers:
