@@ -36,5 +36,10 @@ setup(
     keywords='tornado proxy',
     packages=find_packages(exclude=[]),
     install_requires=requires,
-    extras_require={'dev': requires + ['pytest', 'pytest-cov', 'pylint', 'flake8']}
+    extras_require={'dev': requires + ['pytest', 'pytest-cov', 'pylint', 'flake8']},
+    entry_points={
+        'console_scripts': [
+            'tornado-proxy = tornado_proxy_handlers.server:main'
+        ],
+    },
 )

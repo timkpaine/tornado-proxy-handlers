@@ -1,3 +1,6 @@
+run:  ## Run the proxy server on 8080
+	python3 -m tornado_proxy_handlers.server http://www.google.com
+
 tests: ## Clean and Make unit tests
 	python3 -m pytest -v tests --cov=tornado_proxy_handlers
 
@@ -37,7 +40,10 @@ major:  ## steps before dist, defaults to previous tag + one micro
 	. scripts/deploy.sh MAJOR
 
 dist:  ## dist to pypi
-	python3 setup.py sdist upload -r pypi
+	rm -rf dist build
+	python3 setup.py sdist
+	python3 setup.py bdist_wheel
+	twine check dist/* && twine upload dist/*
 
 # Thanks to Francoise at marmelab.com for this
 .DEFAULT_GOAL := help

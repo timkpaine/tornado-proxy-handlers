@@ -11,13 +11,20 @@ join = os.path.join
 
 
 class ProxyHandler(tornado.web.RequestHandler):
-    def initialize(self, proxy_path='', **kwargs):
+    def initialize(self, proxy_url='/', **kwargs):
         super(ProxyHandler, self).initialize(**kwargs)
-        self.proxy_path = proxy_path
+        self.proxy_url = proxy_url
 
     @tornado.gen.coroutine
     def get(self, url=None):
         '''Get the login page'''
+        url = url or self.proxy_url
+        if url is None:
+            if self.request.uri.startswith('/'):
+                url = self.request.uri[1:]
+            else:
+                url = self.request.uri
+
         req = tornado.httpclient.HTTPRequest(url)
         client = tornado.httpclient.AsyncHTTPClient()
         response = yield client.fetch(req, raise_error=False)
@@ -28,23 +35,36 @@ class ProxyHandler(tornado.web.RequestHandler):
             return
 
         self.set_status(response.code)
-        if response.body:
-            for header in response.headers:
-                self.set_header(header, response.headers.get(header))
+        if response.code != 200:
+            self.finish()
+        else:
+            if response.body:
+                for header in response.headers:
+                    if header.lower() == 'content-length':
+                        self.set_header(header, str(max(len(response.body), int(response.headers.get(header)))))
+                    else:
+                        self.set_header(header, response.headers.get(header))
+
             self.write(response.body)
-        self.finish()
+            self.finish()
 
 
 class ProxyWSHandler(tornado.websocket.WebSocketHandler):
-    def initialize(self, proxy_path='', **kwargs):
+    def initialize(self, proxy_url='/', **kwargs):
         super(ProxyWSHandler, self).initialize(**kwargs)
-        self.proxy_path = proxy_path
+        self.proxy_url = proxy_url
         self.ws = None
         self.closed = True
 
     @tornado.gen.coroutine
     def open(self, url=None):
         self.closed = False
+        url = url or self.proxy_url
+        if url is None:
+            if self.request.uri.startswith('/'):
+                url = self.request.uri[1:]
+            else:
+                url = self.request.uri
 
         def write(msg):
             if self.closed:
