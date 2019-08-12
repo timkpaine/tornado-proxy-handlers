@@ -12,11 +12,11 @@ with open(path.join(here, 'requirements.txt'), encoding='utf-8') as f:
 
 setup(
     name='tornado-proxy-handlers',
-    version='0.0.2',
+    version='0.0.3',
     description='Tornado proxy handlers',
     long_description=long_description,
     url='https://github.com/timkpaine/tornado-proxy-handlers',
-    download_url='https://github.com/timkpaine/tornado-proxy-handlers/archive/v0.0.2.tar.gz',
+    download_url='https://github.com/timkpaine/tornado-proxy-handlers/archive/v0.0.3.tar.gz',
     author='Tim Paine',
     author_email='timothy.k.paine@gmail.com',
     license='Apache 2.0',
@@ -36,10 +36,5 @@ setup(
     keywords='tornado proxy',
     packages=find_packages(exclude=[]),
     install_requires=requires,
-    extras_require={'dev': requires + ['pytest', 'pytest-cov', 'pylint', 'flake8']},
-    entry_points={
-        'console_scripts': [
-            'tornado-proxy = tornado_proxy_handlers.server:main'
-        ],
-    },
+    extras_require={'dev': requires + ['pytest', 'pytest-cov', 'pylint', 'flake8']}
 )
