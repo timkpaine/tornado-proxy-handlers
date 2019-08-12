@@ -19,5 +19,6 @@ def main(proxy_url):
     except KeyboardInterrupt:
         logging.critical('Shutting down...')
 
+
 if __name__ == '__main__':
     main(sys.argv[1])
