@@ -6,7 +6,7 @@ import os.path
 
 pjoin = os.path.join
 here = os.path.abspath(os.path.dirname(__file__))
-name = 'tornado-proxy-handlers'
+name = 'tornado_proxy_handlers'
 
 
 def get_version(file, name='__version__'):
