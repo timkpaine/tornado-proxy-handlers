@@ -109,3 +109,6 @@ yarn.lock
 package-lock.json
 node_modules
 *.ipyhistory
+
+docs/api
+docs/index.md
