@@ -1,6 +1,3 @@
-# Copyright (c) Jupyter Development Team.
-# Distributed under the terms of the Modified BSD License.
-
 from collections import namedtuple
 
 VersionInfo = namedtuple('VersionInfo', [
@@ -22,4 +19,4 @@ __version__ = '{}.{}.{}{}'.format(
     version_info.micro,
     (''
      if version_info.releaselevel == 'final'
-     else _specifier_[version_info.releaselevel] + str(version_info.serial)))
+     else _specifier_[version_info.releaselevel] + "." + str(version_info.serial)))
