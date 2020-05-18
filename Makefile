@@ -1,14 +1,14 @@
 run:  ## Run the proxy server on 8080
-	python3 -m tornado_proxy_handlers.server http://www.google.com
+	python3.7 -m tornado_proxy_handlers.server http://www.google.com
 
 tests: ## Clean and Make unit tests
-	python3 -m pytest -v tornado_proxy_handlers/tests --cov=tornado_proxy_handlers
+	python3.7 -m pytest -v tornado_proxy_handlers/tests --cov=tornado_proxy_handlers
 
 test: lint ## run the tests for travis CI
-	@ python3 -m pytest -v tornado_proxy_handlers/tests --cov=tornado_proxy_handlers
+	@ python3.7 -m pytest -v tornado_proxy_handlers/tests --cov=tornado_proxy_handlers
 
 lint: ## run linter
-	flake8 tornado_proxy_handlers 
+	python3.7 -m flake8 tornado_proxy_handlers 
 
 annotate: ## MyPy type annotation check
 	mypy -s tornado_proxy_handlers
@@ -28,16 +28,7 @@ docs:  ## make documentation
 	open ./docs/_build/html/index.html
 
 install:  ## install to site-packages
-	python3 setup.py install
-
-micro:  ## steps before dist, defaults to previous tag + one micro
-	. scripts/deploy.sh MICRO
-
-minor:  ## steps before dist, defaults to previous tag + one micro
-	. scripts/deploy.sh MINOR
-
-major:  ## steps before dist, defaults to previous tag + one micro
-	. scripts/deploy.sh MAJOR
+	python3.7 setup.py install
 
 dist:  ## dist to pypi
 	rm -rf dist build
