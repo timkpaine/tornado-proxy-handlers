@@ -8,6 +8,9 @@ Tornado proxy handlers for HTTP requests and web sockets
 [![Docs](https://readthedocs.org/projects/tornado-proxy-handlers/badge/?version=latest)](https://tornado-proxy-handlers.readthedocs.io/en/latest/?badge=latest)
 
 
+## Install
+`pip install tornado-proxy-handlers` or from source `python setup.py install`
+
 ## Overview
 This project contains 2 proxy handlers:
 - HTTP Handler

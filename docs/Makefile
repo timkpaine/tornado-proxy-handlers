@@ -4,7 +4,7 @@
 # You can set these variables from the command line.
 SPHINXOPTS    =
 SPHINXBUILD   = sphinx-build
-SPHINXPROJ    = tornado_proxy_handlers 
+SPHINXPROJ    = tornado_proxy_handlers
 SOURCEDIR     = .
 BUILDDIR      = _build
 
