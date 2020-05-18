@@ -2,10 +2,10 @@ run:  ## Run the proxy server on 8080
 	python3.7 -m tornado_proxy_handlers.server http://www.google.com
 
 tests: ## Clean and Make unit tests
-	python3.7 -m pytest -v tornado_proxy_handlers/tests --cov=tornado_proxy_handlers
+	python3.7 -m pytest -v tornado_proxy_handlers/tests --cov=tornado_proxy_handlers --junitxml=python_junit.xml --cov-report=xml --cov-branch
 
 test: lint ## run the tests for travis CI
-	@ python3.7 -m pytest -v tornado_proxy_handlers/tests --cov=tornado_proxy_handlers
+	@ python3.7 -m pytest -v tornado_proxy_handlers/tests --cov=tornado_proxy_handlers --junitxml=python_junit.xml --cov-report=xml --cov-branch
 
 lint: ## run linter
 	python3.7 -m flake8 tornado_proxy_handlers 
