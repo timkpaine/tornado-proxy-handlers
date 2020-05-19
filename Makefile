@@ -28,7 +28,7 @@ docs:  ## make documentation
 	open ./docs/_build/html/index.html
 
 install:  ## install to site-packages
-	python3.7 setup.py install
+	python3.7 -m pip install -U .
 
 dist:  ## dist to pypi
 	rm -rf dist build

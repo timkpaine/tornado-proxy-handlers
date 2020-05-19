@@ -43,7 +43,8 @@ class ProxyHandler(tornado.web.RequestHandler):
                     if header.lower() == 'content-length':
                         self.set_header(header, str(max(len(response.body), int(response.headers.get(header)))))
                     else:
-                        self.set_header(header, response.headers.get(header))
+                        if header.lower() != 'transfer-encoding':
+                            self.set_header(header, response.headers.get(header))
 
             self.write(response.body)
             self.finish()
