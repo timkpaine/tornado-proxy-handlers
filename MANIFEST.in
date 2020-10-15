@@ -4,6 +4,7 @@ include README.md
 
 include setup.cfg
 include pyproject.toml
+include requirements.txt
 include .bumpversion.cfg
 include Makefile
 
