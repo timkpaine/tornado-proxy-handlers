@@ -22,8 +22,23 @@ version = get_version(pjoin(here, name, "_version.py"))
 with open(pjoin(here, "README.md"), encoding="utf-8") as f:
     long_description = f.read().replace("\r\n", "\n")
 
-with open(pjoin(here, "requirements.txt"), encoding="utf-8") as f:
-    requires = f.read().split()
+requires = [
+    "tornado>=6.0.2",
+]
+
+requires_dev = (
+    requires + [
+        "black>=20.",
+        "bump2version>=1.0.0",
+        "flake8>=3.7.8",
+        "flake8-black>=0.2.1",
+        "mock",
+        "pytest>=4.3.0",
+        "pytest-cov>=2.6.1",
+        "Sphinx>=1.8.4",
+        "sphinx-markdown-builder>=0.5.2",
+    ]
+)
 
 setup(
     name=name,
@@ -45,7 +60,6 @@ setup(
     packages=find_packages(exclude=[]),
     install_requires=requires,
     extras_require={
-        "dev": requires
-        + ["pytest", "pytest-cov", "pylint", "flake8", "codecov", "bumpversion", "mock"]
+        "dev": requires_dev,
     },
 )
