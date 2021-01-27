@@ -11,16 +11,16 @@ join = os.path.join
 
 
 class ProxyHandler(tornado.web.RequestHandler):
-    def initialize(self, proxy_url='/', **kwargs):
+    def initialize(self, proxy_url="/", **kwargs):
         super(ProxyHandler, self).initialize(**kwargs)
         self.proxy_url = proxy_url
 
     @tornado.gen.coroutine
     def get(self, url=None):
-        '''Get the login page'''
+        """Get the login page"""
         url = url or self.proxy_url
         if url is None:
-            if self.request.uri.startswith('/'):
+            if self.request.uri.startswith("/"):
                 url = self.request.uri[1:]
             else:
                 url = self.request.uri
@@ -40,10 +40,18 @@ class ProxyHandler(tornado.web.RequestHandler):
         else:
             if response.body:
                 for header in response.headers:
-                    if header.lower() == 'content-length':
-                        self.set_header(header, str(max(len(response.body), int(response.headers.get(header)))))
+                    if header.lower() == "content-length":
+                        self.set_header(
+                            header,
+                            str(
+                                max(
+                                    len(response.body),
+                                    int(response.headers.get(header)),
+                                )
+                            ),
+                        )
                     else:
-                        if header.lower() != 'transfer-encoding':
+                        if header.lower() != "transfer-encoding":
                             self.set_header(header, response.headers.get(header))
 
             self.write(response.body)
@@ -51,7 +59,7 @@ class ProxyHandler(tornado.web.RequestHandler):
 
 
 class ProxyWSHandler(tornado.websocket.WebSocketHandler):
-    def initialize(self, proxy_url='/', **kwargs):
+    def initialize(self, proxy_url="/", **kwargs):
         super(ProxyWSHandler, self).initialize(**kwargs)
         self.proxy_url = proxy_url
         self.ws = None
@@ -62,7 +70,7 @@ class ProxyWSHandler(tornado.websocket.WebSocketHandler):
         self.closed = False
         url = url or self.proxy_url
         if url is None:
-            if self.request.uri.startswith('/'):
+            if self.request.uri.startswith("/"):
                 url = self.request.uri[1:]
             else:
                 url = self.request.uri
@@ -75,8 +83,10 @@ class ProxyWSHandler(tornado.websocket.WebSocketHandler):
             else:
                 if self.ws:
                     self.write_message(msg, binary=isinstance(msg, bytes))
-        self.ws = yield tornado.websocket.websocket_connect(url,
-                                                            on_message_callback=write)
+
+        self.ws = yield tornado.websocket.websocket_connect(
+            url, on_message_callback=write
+        )
 
     def on_message(self, message):
         if self.ws:

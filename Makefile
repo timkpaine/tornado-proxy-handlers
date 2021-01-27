@@ -1,20 +1,14 @@
 run:  ## Run the proxy server on 8080
-	python3.7 -m tornado_proxy_handlers.server http://www.google.com
+	python -m tornado_proxy_handlers.server http://www.google.com
 
 tests: ## Clean and Make unit tests
-	python3.7 -m pytest -v tornado_proxy_handlers/tests --cov=tornado_proxy_handlers --junitxml=python_junit.xml --cov-report=xml --cov-branch
-
-test: lint ## run the tests for travis CI
-	@ python3.7 -m pytest -v tornado_proxy_handlers/tests --cov=tornado_proxy_handlers --junitxml=python_junit.xml --cov-report=xml --cov-branch
+	python -m pytest -v tornado_proxy_handlers/tests --cov=tornado_proxy_handlers --junitxml=python_junit.xml --cov-report=xml --cov-branch
 
 lint: ## run linter
-	python3.7 -m flake8 tornado_proxy_handlers 
+	python -m flake8 tornado_proxy_handlers setup.py
 
-annotate: ## MyPy type annotation check
-	mypy -s tornado_proxy_handlers
-
-annotate_l: ## MyPy type annotation check - count only
-	mypy -s tornado_proxy_handlers | wc -l 
+fix: ## run linter
+	python -m black tornado_proxy_handlers setup.py
 
 clean: ## clean the repository
 	find . -name "__pycache__" | xargs  rm -rf 
@@ -28,13 +22,15 @@ docs:  ## make documentation
 	open ./docs/_build/html/index.html
 
 install:  ## install to site-packages
-	python3.7 -m pip install -U .
+	python -m pip install -U .
 
-dist:  ## dist to pypi
+dist:  ## create dists
 	rm -rf dist build
-	python3 setup.py sdist
-	python3 setup.py bdist_wheel
-	twine check dist/* && twine upload dist/*
+	python setup.py sdist bdist_wheel
+	python -m twine check dist/*
+	
+publish: dist  ## dist to pypi
+	python -m twine upload dist/* --skip-existing
 
 # Thanks to Francoise at marmelab.com for this
 .DEFAULT_GOAL := help
