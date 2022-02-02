@@ -5,7 +5,6 @@ Tornado proxy handlers for HTTP requests and web sockets
 [![Coverage](https://codecov.io/gh/timkpaine/tornado-proxy-handlers/branch/main/graph/badge.svg)](https://codecov.io/gh/timkpaine/tornado-proxy-handlers)
 [![License](https://img.shields.io/github/license/timkpaine/tornado-proxy-handlers.svg)](https://pypi.python.org/pypi/tornado-proxy-handlers/)
 [![PyPI](https://img.shields.io/pypi/v/tornado-proxy-handlers.svg)](https://pypi.python.org/pypi/tornado-proxy-handlers/)
-[![Docs](https://readthedocs.org/projects/tornado-proxy-handlers/badge/?version=latest)](https://tornado-proxy-handlers.readthedocs.io/en/latest/?badge=latest)
 
 
 ## Install
